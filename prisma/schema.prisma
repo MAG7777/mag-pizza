@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
 }
 
 model User {
@@ -15,6 +14,7 @@ model User {
   email    String   @unique
   password String
   role     UserRole @default(USER)
+  verified DateTime
 
   provider   String?
   providerId String?
@@ -44,11 +44,11 @@ model Product {
   ingredients Ingredient[]
   items       ProductItem[]
 
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
-
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model ProductItem {
